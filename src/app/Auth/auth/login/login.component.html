@@ -7,7 +7,12 @@
 
     <form [formGroup]="loginForm">
         <label for="email">UserType:</label><br>
-    
+        <ng-select [items]="cities"
+        bindLabel="name"
+        placeholder="Select city"
+        [(ngModel)]="selectedCity"
+        labelForId="city">
+</ng-select>
         <label for="email">Email:</label><br>
         <input type="text" id="email" formControlName="email"><br>
         <label for="password">Password:</label><br>

@@ -12,14 +12,20 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
- 
+  selectedCity: any;
 
  loginForm = this.fb.group({
     email: [null],
     password: [null]
   });
 
- 
+  cities = [
+    {id: 1, name: 'Vilnius'},
+    {id: 2, name: 'Kaunas'},
+    {id: 3, name: 'Pavilnys', disabled: true},
+    {id: 4, name: 'Pabradė'},
+    {id: 5, name: 'Klaipėda'}
+];
  
 
   constructor(private fb:FormBuilder,private _auth:AuthService) { }
