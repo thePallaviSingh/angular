@@ -7,7 +7,7 @@
 
     <form [formGroup]="loginForm">
         <label for="email">UserType:</label><br>
-        <select class="form-control" >
+        <select class="form-control" formControlName="usertype" >
             <option *ngFor="let item of usertype"  [value]="item.name">
             {{item.name}}
             </option>
