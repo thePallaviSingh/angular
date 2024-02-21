@@ -25,4 +25,14 @@ base_url=environment.url;
       }),
     );
   }
+  userTypeList():Observable<any>{
+    return this._httpClient.post(this.base_url  + endpoint.auth.usertype ,{}).pipe(
+      catchError((err) =>
+        of(err),
+      ),
+      switchMap((response: any) => {
+        return of(response);
+      }),
+    );
+  }
 }

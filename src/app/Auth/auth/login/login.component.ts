@@ -12,26 +12,26 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  selectedCity: any;
+ 
 
+  
  loginForm = this.fb.group({
     email: [null],
     password: [null]
   });
+  Data: any =[];
+  usertype:any=[];
 
-  cities = [
-    {id: 1, name: 'Vilnius'},
-    {id: 2, name: 'Kaunas'},
-    {id: 3, name: 'Pavilnys', disabled: true},
-    {id: 4, name: 'Pabradė'},
-    {id: 5, name: 'Klaipėda'}
-];
+
  
 
-  constructor(private fb:FormBuilder,private _auth:AuthService) { }
+  constructor(private fb:FormBuilder,private _auth:AuthService) { 
+    this.getUserType();
+  }
 
   ngOnInit(): void {
-
+    this.Data= [{ id: 0, nameData:"pallavi" }, { id: 1, nameData:"priya" }];
+    console.log('Data',this.Data);
   }
   login(){
     const payload = {
@@ -48,5 +48,12 @@ export class LoginComponent implements OnInit {
         // this._toastr.error(res.message)
       }
     })
+  }
+
+  getUserType(){
+    this._auth.userTypeList().subscribe((res:any)=>{
+       //console.log('usertype',res);
+       this.usertype=res.data;
+    });
   }
 }
