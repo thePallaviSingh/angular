@@ -12,23 +12,23 @@ export class GeolocationService {
     
   }
   ngOnInit(): void {
-    this.getLocation();
   }
-  getLocation() {
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.getCurrentPosition((position:Position) => {
-    //     if (position) {
-    //       console.log("Latitude: " + position.coords.latitude +
-    //         "Longitude: " + position.coords.longitude);
-    //       this.lat = position.coords.latitude;
-    //       this.lng = position.coords.longitude;
-    //       console.log(this.lat);
-    //       console.log(this.lat);
-    //     }
-    //   },
-    //     (error: PositionError) => console.log(error));
-    // } else {
-    //   alert("Geolocation is not supported by this browser.");
-    // }
-  }
+  
+  getLocation():Promise<any> {
+    
+        return new Promise((resolve,reject)=>{
+          if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position)=>{
+            const longitude = position.coords.longitude;
+            const latitude = position.coords.latitude;
+            resolve({
+              lat: latitude,
+              lng:longitude
+            })
+          });
+        }else {
+          reject ("No support for geolocation")
+       }
+        })
+    } 
 }

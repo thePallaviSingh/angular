@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { GeolocationService } from 'src/@myproject/service/geolocation.service';
+import { Router } from '@angular/router';
+import { ModalService } from 'src/app/pages/modal/modal.service';
+import { ModalComponent } from 'src/app/pages/modal/modal/modal.component';
 
 
 @Component({
@@ -10,25 +13,34 @@ import { GeolocationService } from 'src/@myproject/service/geolocation.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  
+  @ViewChild('modal', { static: false })
+  mymodal!: ModalComponent;
 
   loginForm = this.fb.group({
-    email:    [null],
+    email: [null],
     password: [null],
     usertype: [null],
   });
   Data: any = [];
   usertype: any = [];
-
-  constructor(private fb: FormBuilder, private _auth: AuthService,private _location:GeolocationService) {
+  location: any;
+  constructor(
+    private fb: FormBuilder,
+    private _auth: AuthService,
+    private _location: GeolocationService,
+    private _router: Router ,
+    private _modal:ModalService
+    ) {
     this.getUserType();
-    this._location.getLocation();
   }
 
-  // email!: string;
-  // password!: string;
-  // usertype: any;
-
   ngOnInit(): void {
+    this._location.getLocation().then((res: any) => {
+      if (res) {
+        this.location = res
+      }
+    })
 
   }
   login() {
@@ -36,14 +48,18 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.controls['email'].value,
       password: this.loginForm.controls['password'].value,
       admin_type: this.loginForm.controls['usertype'].value,
-
+      lat: this.location.lat,
+      lng: this.location.lng,
     }
     this._auth.authLogin(payload).subscribe((res: any) => {
       console.log('res-save', res);
       if (res.code == 200) {
-        console.log('success');
+        localStorage.setItem('auth_token',res.data.user_data.authtoken);
+        console.log('success',res.data.user_data.authtoken);
+        this._router.navigate(['/dashboard']);
         // this._toastr.success(res.message)
-      } else {
+      } else if (res.code == 202) {
+        this.openModal();
         // this._toastr.error(res.message)
       }
     })
@@ -51,8 +67,12 @@ export class LoginComponent implements OnInit {
 
   getUserType() {
     this._auth.userTypeList().subscribe((res: any) => {
-      //console.log('usertype',res);
+      console.log('usertype', res);
       this.usertype = res.data;
     });
+  }
+  openModal() {
+   // debugger;
+    this.mymodal.open();
   }
 }
