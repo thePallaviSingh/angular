@@ -14,9 +14,8 @@ import { ModalComponent } from 'src/app/pages/modal/modal/modal.component';
 })
 export class LoginComponent implements OnInit {
   
-  @ViewChild('modal', { static: false })
-  mymodal!: ModalComponent;
-
+  
+  @ViewChild('modal', {static: false}) mymodal!: ModalComponent
   loginForm = this.fb.group({
     email: [null],
     password: [null],
@@ -57,6 +56,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('auth_token',res.data.user_data.authtoken);
         console.log('success',res.data.user_data.authtoken);
         this._router.navigate(['/dashboard']);
+        this.openModal();
         // this._toastr.success(res.message)
       } else if (res.code == 202) {
         this.openModal();
@@ -72,7 +72,11 @@ export class LoginComponent implements OnInit {
     });
   }
   openModal() {
-   // debugger;
     this.mymodal.open();
+    // setTimeout(() => {
+    //   this.mymodal.open();
+    // }, 1000);
+   // debugger;
+    
   }
 }

@@ -1,6 +1,23 @@
+
 <div #myModal class="container">
   <div class="content">
-    <p>Some content here...</p>
-    <button (click)="close()">Close</button>
+    <div class="modal-header"> 
+      <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+      <h1>Enter OTP</h1>
+    </div>
+   
+    <div class="otp-field">
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <!-- <input class="space" type="text" maxlength="1" /> -->
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+      <input type="text" maxlength="1" />
+    </div>
+    <div>
+      <button (click)="submitOtp()">Submit</button>
+    </div>
+ 
   </div>
-  </div>
+</div>

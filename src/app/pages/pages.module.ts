@@ -12,6 +12,7 @@ import { ModalComponent } from './modal/modal/modal.component';
   imports: [
     CommonModule,
     PagesRoutingModule
-  ]
+  ],
+  exports:[ModalComponent]
 })
 export class PagesModule { }
