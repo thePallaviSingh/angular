@@ -8,16 +8,16 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-base_url=environment.url;
+  base_url = environment.url;
 
 
-  constructor(private _httpClient: HttpClient) { 
-    console.log('baseUrl',this.base_url);
-    
+  constructor(private _httpClient: HttpClient) {
+    console.log('baseUrl', this.base_url);
+
   }
 
   authLogin(payLoad: any): Observable<any> {
-    return this._httpClient.post(this.base_url  + endpoint.auth.login ,payLoad).pipe(
+    return this._httpClient.post(this.base_url + endpoint.auth.login, payLoad).pipe(
       catchError((err) =>
         of(err),
       ),
@@ -26,11 +26,20 @@ base_url=environment.url;
       }),
     );
   }
-  userTypeList():Observable<any>{
-    return this._httpClient.post(this.base_url  + endpoint.auth.usertype ,{}).pipe(
+  userTypeList(): Observable<any> {
+    return this._httpClient.post(this.base_url + endpoint.auth.usertype, {}).pipe(
       catchError((err) =>
         of(err),
       ),
+      switchMap((response: any) => {
+        return of(response);
+      }),
+    );
+  }
+  verifyOtp(payload: any): Observable<any> {
+    return this._httpClient.post(this.base_url + endpoint.auth.verifyotp, payload).pipe(catchError((err) =>
+      of(err),
+    ),
       switchMap((response: any) => {
         return of(response);
       }),

@@ -5,6 +5,8 @@ import { GeolocationService } from 'src/@myproject/service/geolocation.service';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/pages/modal/modal.service';
 import { ModalComponent } from 'src/app/pages/modal/modal/modal.component';
+import { CommonService } from 'src/@myproject/service/common.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -13,9 +15,9 @@ import { ModalComponent } from 'src/app/pages/modal/modal/modal.component';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  
-  
-  @ViewChild('modal', {static: false}) mymodal!: ModalComponent
+  userDetails: any;
+  userdata: any;
+  @ViewChild('modal', { static: false }) mymodal!: ModalComponent
   loginForm = this.fb.group({
     email: [null],
     password: [null],
@@ -24,13 +26,18 @@ export class LoginComponent implements OnInit {
   Data: any = [];
   usertype: any = [];
   location: any;
+  user: any;
+
   constructor(
     private fb: FormBuilder,
     private _auth: AuthService,
     private _location: GeolocationService,
-    private _router: Router ,
-    private _modal:ModalService
-    ) {
+    private _router: Router,
+    private _modal: ModalService,
+    private _commonservice: CommonService,
+    private _toastr: ToastrService
+    // public _modal: MatDialogRef<ModalComponent>,
+  ) {
     this.getUserType();
   }
 
@@ -50,17 +57,18 @@ export class LoginComponent implements OnInit {
       lat: this.location.lat,
       lng: this.location.lng,
     }
+  this._commonservice.setLocalData('userdata', JSON.stringify(payload));
     this._auth.authLogin(payload).subscribe((res: any) => {
-      console.log('res-save', res);
       if (res.code == 200) {
-        localStorage.setItem('auth_token',res.data.user_data.authtoken);
-        console.log('success',res.data.user_data.authtoken);
-        this._router.navigate(['/dashboard']);
-        this.openModal();
-        // this._toastr.success(res.message)
+        this._commonservice.setLocalData('auth_token', res.data.user_data.authtoken)
+        this._toastr.success(res.message)
+        this._router.navigate(['pages/dashboard']);
       } else if (res.code == 202) {
         this.openModal();
-        // this._toastr.error(res.message)
+        //  this.userdata = localStorage.getItem('userdata');  //this._commonservice.getLocalData('userdata')
+        // this.user = JSON.parse(this.userdata);
+        // console.log('userdetails', this.user);
+        this._toastr.success(res.message)
       }
     })
   }
@@ -73,10 +81,21 @@ export class LoginComponent implements OnInit {
   }
   openModal() {
     this.mymodal.open();
-    // setTimeout(() => {
-    //   this.mymodal.open();
-    // }, 1000);
-   // debugger;
-    
   }
+  closeModel() {
+    this.mymodal.close();
+  }
+
+  // otpVerify() {
+  //   const payload = {
+  //     email: this.user.email,
+  //     password:this.user.password,
+  //     admin_type: this.user.admin_type,
+  //     lat: this.user.lat,
+  //     lng: this.user.lng,
+  //   }
+  //   this._auth.verifyOtp(payload).subscribe((res: any) => {
+  //     console.log('response', res);
+  //   })
+  // }
 }
