@@ -10,7 +10,7 @@ export class AuthService {
 
 
   constructor(private _commonservice:CommonService) { 
-    console.log('auth_token',(localStorage.getItem('auth_token')));
+    //console.log('auth_token',(localStorage.getItem('auth_token')));
     
   }
   setgetAuthStatus(value: any) {
@@ -19,9 +19,9 @@ export class AuthService {
   }
 
   get LoginStatus() {
-    console.log(localStorage.getItem('auth_token'));
-    return JSON.parse(localStorage.getItem('auth_token') || this.getAuthStatus.toString());
+   // console.log(localStorage.getItem('auth_token'));
+   // return JSON.parse(localStorage.getItem('auth_token') || this.getAuthStatus.toString());
+return localStorage.getItem('auth_token') || this.getAuthStatus.toString();
 
-;
   }
 }

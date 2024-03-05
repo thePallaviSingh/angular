@@ -9,10 +9,12 @@ const routes: Routes = [{
   path:'open-modal',
   component:ModalComponent
 },
-{
-  canActivate: [AuthGuard],
+{ 
+  
   path:'dashboard',
-  component:DashboardComponent
+  component:DashboardComponent,
+  canActivate: [AuthGuard],
+  // redirectTo: 'auth/dashboard', pathMatch: 'full' , 
 }
 
 ];

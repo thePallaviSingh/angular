@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+  isAuthenticated: any;
   constructor(
     private _router: Router,
     private authService: AuthService
@@ -20,15 +21,14 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     // return true;
-    var isAuthenticated = this.authService.LoginStatus();
-    console.log('isAuthenticated?????',isAuthenticated);
-    
-    if (isAuthenticated) {
-      this._router.navigate(['/login']);
-    }else{
+    this.isAuthenticated = this.authService.LoginStatus;
+    console.log('isAuthenticated?????', this.isAuthenticated);
+    if (!this.isAuthenticated) {
+      this._router.navigate(['auth/login']);
+    } else {
       this._router.navigate(['pages/dashboard']);
     }
-    return isAuthenticated;
+    return true;
   }
 
 }

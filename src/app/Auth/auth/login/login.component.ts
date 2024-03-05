@@ -9,6 +9,7 @@ import { CommonService } from 'src/@myproject/service/common.service';
 import { ToastrService } from 'ngx-toastr';
 
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
     private _router: Router,
     private _modal: ModalService,
     private _commonservice: CommonService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private authenticservice:AuthService
     // public _modal: MatDialogRef<ModalComponent>,
   ) {
     this.getUserType();
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit {
       if (res.code == 200) {
         this._commonservice.setLocalData('auth_token', res.data.user_data.authtoken)
         this._toastr.success(res.message)
+      
         this._router.navigate(['pages/dashboard']);
       } else if (res.code == 202) {
         this.openModal();

@@ -48,16 +48,17 @@ export class ModalComponent {
     // console.log('userdetails',userdata);
 
      const payload = {
-      email: this.user.email,
-      password: this.user.password,
-      admin_type: this.user.admin_type,
-      lat: this.user.lat,
-      lng: this.user.lng,
+      email: this.user?.email,
+      password: this.user?.password,
+      admin_type: this.user?.admin_type,
+      lat: this.user?.lat,
+      lng: this.user?.lng,
       type: 1,
       otp: localStorage.getItem('otp')
     }
     this._auth.verifyOtp(payload).subscribe((res: any) => {
       console.log('response', res);
+    //  this._commonservice.setLocalData('auth_token', res.data.user_data?.authtoken)
       this._toastr.success(res.message)
      
     })
@@ -70,18 +71,5 @@ export class ModalComponent {
   handleFillEvent(value: string): void {
     this.otp=value;
     localStorage.setItem('otp', this.otp);
-    // const payload = {
-    //   email: this.user.email,
-    //   password: this.user.password,
-    //   admin_type: this.user.admin_type,
-    //   lat: this.user.lat,
-    //   lng: this.user.lng,
-    //   type: 1,
-    //   otp: value
-    // }
-    // this._auth.verifyOtp(payload).subscribe((res: any) => {
-    //   console.log('response', res);
-     
-    // })
   }
 }
