@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   userdata: any;
   @ViewChild('modal', { static: false }) mymodal!: ModalComponent
   loginForm = this.fb.group({
-    email: [null],
+    email:    [null],
     password: [null],
     usertype: [null],
   });
@@ -37,8 +37,7 @@ export class LoginComponent implements OnInit {
     private _modal: ModalService,
     private _commonservice: CommonService,
     private _toastr: ToastrService,
-    private authenticservice:AuthService
-    // public _modal: MatDialogRef<ModalComponent>,
+    private authenticservice: AuthService
   ) {
     this.getUserType();
   }
@@ -59,18 +58,14 @@ export class LoginComponent implements OnInit {
       lat: this.location.lat,
       lng: this.location.lng,
     }
-  this._commonservice.setLocalData('userdata', JSON.stringify(payload));
+    this._commonservice.setLocalData('userdata', JSON.stringify(payload));
     this._auth.authLogin(payload).subscribe((res: any) => {
       if (res.code == 200) {
         this._commonservice.setLocalData('auth_token', res.data.user_data.authtoken)
         this._toastr.success(res.message)
-      
         this._router.navigate(['pages/dashboard']);
       } else if (res.code == 202) {
         this.openModal();
-        //  this.userdata = localStorage.getItem('userdata');  //this._commonservice.getLocalData('userdata')
-        // this.user = JSON.parse(this.userdata);
-        // console.log('userdetails', this.user);
         this._toastr.success(res.message)
       }
     })

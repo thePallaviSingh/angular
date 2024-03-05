@@ -6,12 +6,8 @@ import { CommonService } from './common.service';
 })
 export class AuthService {
 
-  private getAuthStatus =(localStorage.getItem('auth_token') || ('false'));
-
-
-  constructor(private _commonservice:CommonService) { 
-    //console.log('auth_token',(localStorage.getItem('auth_token')));
-    
+  private getAuthStatus = (localStorage.getItem('auth_token') || ('false'));
+  constructor(private _commonservice: CommonService) {
   }
   setgetAuthStatus(value: any) {
     this.getAuthStatus = value;
@@ -19,9 +15,7 @@ export class AuthService {
   }
 
   get LoginStatus() {
-   // console.log(localStorage.getItem('auth_token'));
-   // return JSON.parse(localStorage.getItem('auth_token') || this.getAuthStatus.toString());
-return localStorage.getItem('auth_token') || this.getAuthStatus.toString();
-
+    // return JSON.parse(localStorage.getItem('auth_token') || this.getAuthStatus.toString());
+    return localStorage.getItem('auth_token') || this.getAuthStatus.toString();
   }
 }

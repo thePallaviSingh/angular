@@ -4,7 +4,6 @@
       <button type="button" class="close" (click)="close()">&times;</button>
       <h1>Enter OTP</h1>
     </div>
-
     <div class="otp-field">
       <!-- <input type="text" maxlength="1" /> -->
       <ngx-otp-input [config]="otpInputConfig" (otpChange)="handeOtpChange($event)" (fill)="handleFillEvent($event)">

@@ -44,16 +44,13 @@ export class ModalComponent {
     this.modal.nativeElement.style.display = 'none';
   }
   submitOtp() {
-    // let userdata=  this._commonservice.getLocalData('userdata')
-    // console.log('userdetails',userdata);
-
      const payload = {
-      email: this.user?.email,
-      password: this.user?.password,
+      email:      this.user?.email,
+      password:   this.user?.password,
       admin_type: this.user?.admin_type,
-      lat: this.user?.lat,
-      lng: this.user?.lng,
-      type: 1,
+      lat:        this.user?.lat,
+      lng:        this.user?.lng,
+      type:       1,
       otp: localStorage.getItem('otp')
     }
     this._auth.verifyOtp(payload).subscribe((res: any) => {
