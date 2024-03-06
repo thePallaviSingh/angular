@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesModule } from 'src/app/pages/pages.module';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { PagesRoutingModule } from 'src/app/pages/pages-routing.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 
 
@@ -22,9 +24,12 @@ import { PagesRoutingModule } from 'src/app/pages/pages-routing.module';
     FormsModule,
     PagesModule,
     NgxOtpInputModule,
-    PagesRoutingModule
+    PagesRoutingModule,
+    NgSelectModule,
+    
    
   ],
+
  
 })
 export class AuthModule { }

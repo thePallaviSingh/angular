@@ -4,6 +4,7 @@ import { NgxOtpInputConfig } from 'ngx-otp-input';
 import { CommonService } from 'src/@myproject/service/common.service';
 import { AuthService } from 'src/app/Auth/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class ModalComponent {
   otp:any;
   @ViewChild('myModal', { static: false }) modal!: ElementRef;
   display: any;
-  constructor(private _commonservice: CommonService, private _auth: AuthService,private _toastr: ToastrService) {
+  constructor(private _commonservice: CommonService, private _auth: AuthService,private _toastr: ToastrService,private _router: Router) {
     this.userdata = localStorage.getItem('userdata');
     this.user = JSON.parse(this.userdata);
     console.log('users??',this.user);
@@ -54,9 +55,10 @@ export class ModalComponent {
       otp: localStorage.getItem('otp')
     }
     this._auth.verifyOtp(payload).subscribe((res: any) => {
-      console.log('response', res);
-    //  this._commonservice.setLocalData('auth_token', res.data.user_data?.authtoken)
+      // console.log('response', res);
+      this._commonservice.setLocalData('auth_token', res.data.user_data?.authtoken)
       this._toastr.success(res.message)
+      this._router.navigate(['pages/dashboard']);
      
     })
   }

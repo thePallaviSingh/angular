@@ -7,6 +7,7 @@ import { NgxOtpInputModule } from 'ngx-otp-input';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 
+
 @NgModule({
   declarations: [
     ModalComponent,
@@ -15,7 +16,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   imports: [
     CommonModule,
     PagesRoutingModule,
-    NgxOtpInputModule
+    NgxOtpInputModule,
+    
   ],
   exports:[ModalComponent]
 })

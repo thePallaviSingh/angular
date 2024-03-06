@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit {
   userDetails: any;
+  usertypedata: any;
   userdata: any;
   @ViewChild('modal', { static: false }) mymodal!: ModalComponent
   loginForm = this.fb.group({
@@ -42,6 +43,13 @@ export class LoginComponent implements OnInit {
     this.getUserType();
   }
 
+
+  cars = [
+        { id: 1, name: 'Volvo' },
+        { id: 2, name: 'Saab' },
+        { id: 3, name: 'Opel' },
+        { id: 4, name: 'Audi' },
+    ];
   ngOnInit(): void {
     this._location.getLocation().then((res: any) => {
       if (res) {
