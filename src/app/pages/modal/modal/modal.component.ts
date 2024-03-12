@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { ModalService } from '../modal.service';
 import { NgxOtpInputConfig } from 'ngx-otp-input';
 import { CommonService } from 'src/@myproject/service/common.service';
@@ -13,17 +13,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./modal.component.css']
 })
 export class ModalComponent {
+  @Input() item = 0;
+
   userDetails: any;
   userdata: any;
   user: any;
-  otp:any;
+  otp: any;
   @ViewChild('myModal', { static: false }) modal!: ElementRef;
+  @Output() verifyOtp = new EventEmitter<any>;
   display: any;
-  constructor(private _commonservice: CommonService, private _auth: AuthService,private _toastr: ToastrService,private _router: Router) {
-    this.userdata = localStorage.getItem('userdata');
-    this.user = JSON.parse(this.userdata);
-    console.log('users??',this.user);
-    
+  constructor(private _commonservice: CommonService, private _auth: AuthService, private _toastr: ToastrService, private _router: Router) {
+    // this.userdata = localStorage.getItem('userdata');
+    // this.user = JSON.parse(this.userdata);
+    // console.log('users??',this.user);
+
   }
 
   otpInputConfig: NgxOtpInputConfig = {
@@ -45,22 +48,12 @@ export class ModalComponent {
     this.modal.nativeElement.style.display = 'none';
   }
   submitOtp() {
-     const payload = {
-      email:      this.user?.email,
-      password:   this.user?.password,
-      admin_type: this.user?.admin_type,
-      lat:        this.user?.lat,
-      lng:        this.user?.lng,
-      type:       1,
+    const payload = {
+      type: 1,
       otp: localStorage.getItem('otp')
     }
-    this._auth.verifyOtp(payload).subscribe((res: any) => {
-      // console.log('response', res);
-      this._commonservice.setLocalData('auth_token', res.data.user_data?.authtoken)
-      this._toastr.success(res.message)
-      this._router.navigate(['pages/dashboard']);
-     
-    })
+    this.verifyOtp.emit(payload);
+    return;
   }
 
   handeOtpChange(value: string[]): void {
@@ -68,7 +61,7 @@ export class ModalComponent {
   }
 
   handleFillEvent(value: string): void {
-    this.otp=value;
+    this.otp = value;
     localStorage.setItem('otp', this.otp);
   }
 }

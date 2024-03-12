@@ -16,12 +16,16 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  userdata: any;
+  userdata1: any;
+  user1: any;
+  // user1:AstMemoryEfficientTransformer;
   userDetails: any;
   usertypedata: any;
-  userdata: any;
+  // userdata: any;
   @ViewChild('modal', { static: false }) mymodal!: ModalComponent
   loginForm = this.fb.group({
-    email:    [null],
+    email: [null],
     password: [null],
     usertype: [null],
   });
@@ -43,19 +47,13 @@ export class LoginComponent implements OnInit {
     this.getUserType();
   }
 
-
-  cars = [
-        { id: 1, name: 'Volvo' },
-        { id: 2, name: 'Saab' },
-        { id: 3, name: 'Opel' },
-        { id: 4, name: 'Audi' },
-    ];
   ngOnInit(): void {
     this._location.getLocation().then((res: any) => {
       if (res) {
         this.location = res
       }
     })
+
 
   }
   login() {
@@ -78,7 +76,6 @@ export class LoginComponent implements OnInit {
       }
     })
   }
-
   getUserType() {
     this._auth.userTypeList().subscribe((res: any) => {
       console.log('usertype', res);
@@ -91,17 +88,28 @@ export class LoginComponent implements OnInit {
   closeModel() {
     this.mymodal.close();
   }
+  verifyOtp(value: any) {
+    this.userdata1 = localStorage.getItem('userdata');
+    this.user1 = JSON.parse(this.userdata1);
+    const payload = {
+      email: this.user1.email,
+      password: this.user1.password,
+      admin_type: this.user1.admin_type,
+      lat: this.user1.lat,
+      lng: this.user1.lng,
+      otp: value.otp,
+      type: value.type,
+    }
+    // console.log('user>>>>>>>>>>>>>>>>',this.user1);
+    // console.log(value);
+    // console.log('verify-payload',payload);
+    this._auth.verifyOtp(payload).subscribe((res: any) => {
+      console.log('response', res);
+      this._commonservice.setLocalData('auth_token', res.data.user_data?.authtoken)
+      this._toastr.success(res.message)
+      this._router.navigate(['pages/dashboard']);
 
-  // otpVerify() {
-  //   const payload = {
-  //     email: this.user.email,
-  //     password:this.user.password,
-  //     admin_type: this.user.admin_type,
-  //     lat: this.user.lat,
-  //     lng: this.user.lng,
-  //   }
-  //   this._auth.verifyOtp(payload).subscribe((res: any) => {
-  //     console.log('response', res);
-  //   })
-  // }
+    })
+  }
+
 }

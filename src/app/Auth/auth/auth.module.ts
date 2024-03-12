@@ -8,6 +8,7 @@ import { PagesModule } from 'src/app/pages/pages.module';
 import { NgxOtpInputModule } from 'ngx-otp-input';
 import { PagesRoutingModule } from 'src/app/pages/pages-routing.module';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { UserRegisterComponent } from './user-register/user-register.component';
 
 
 
@@ -15,7 +16,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
-    LoginComponent
+    LoginComponent,
+    UserRegisterComponent
   ],
   imports: [
     CommonModule,

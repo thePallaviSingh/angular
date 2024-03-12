@@ -1,0 +1,55 @@
+
+<div class="container main-container mt-5">
+    <h4>Form Array</h4>
+    <hr />
+    <form [formGroup]="myForm">
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Name</label>
+            <div class="col-10">
+              <input formControlName="name" class="form-control" type="text" placeholder="Name" />
+            </div>
+        </div>
+        <!-- Add item array  -->
+        <div class="form-group row">
+            <div class="col-12">
+                <button type="button" (click)="addItem()" class="btn btn-primary btn-block">
+                    Add User
+                </button>
+            </div>
+        </div>
+
+        <!--FormArray-->
+        <div formArrayName="items">
+            <div *ngFor="let address of f.items.controls; let i = index">
+                <div [formGroupName]="i" class="form-group row">
+                    <!-- <label class="col-2 col-form-label">{{ i + 1 }}</label> -->
+                    <div class="col-5">
+                    <label class="col-2 col-form-label">Name</label> <input formControlName="username" class="form-control" type="text" />
+                    </div>
+                    <div class="col-5">
+                        <label class="col-2 col-form-label">Email</label> <input formControlName="email" class="form-control" type="text" />
+                        </div>
+                    <div class="col-1">
+                        <button type="button" (click)="onRemoveAddress(i)" class="btn btn-outline-danger">
+                            X
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Final buttons-->
+        <div class="form-group row mt-5">
+            <div class="input-group col-md-8">
+                <button type="button" (click)="onSubmit()" class="btn btn-outline-primary">
+                    Save
+                </button>
+            </div>
+            <div class="input-group col-md-8 mt-2">
+                <button type="button" (click)="onResetForm()" class="btn btn-outline-primary">
+                    Reset form
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
